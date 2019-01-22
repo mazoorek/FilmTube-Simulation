@@ -1,8 +1,22 @@
 package model;
 
-public interface Subscription {
-    String versionOfSubscription = null;
-    int priceOfSubscription = 0;
-    int numberOfDevicesOfSubscription = 0;
-    String maxResolutionOfProduct = null;
+public class Subscription {
+    private String subscriptionType;
+    private int subscriptionPrice;
+
+    public String getSubscriptionType() {
+        return subscriptionType;
+    }
+
+    public void setSubscriptionType(String subscriptionType) {
+        this.subscriptionType = subscriptionType;
+    }
+
+    public int getSubscriptionPrice() {
+        return subscriptionPrice;
+    }
+
+    public void setSubscriptionPrice(int subscriptionPrice) {
+        this.subscriptionPrice = subscriptionPrice;
+    }
 }

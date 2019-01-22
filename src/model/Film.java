@@ -1,22 +1,32 @@
 package model;
 
-public class Film extends Product implements Promotion,Subscription{
-    private String dateOfTheBegginingOfPromotion;
-    private String dateOfTheEndOfPromotion;
-    private int discountPercentageOfPromotion;
-    private String versionOfSubscription;
-    private int priceOfSubscription;
-    private int numberOfDevicesOfSubscription;
-    private String maxResolutionOfProduct;
-    private String linkToTrailer;
-    private int accessTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Random;
 
-    public String getDateOfTheBegginingOfPromotion() {
-        return dateOfTheBegginingOfPromotion;
+public class Film extends Product implements Promotion {
+    private String dateOfTheBeginningOfPromotion; //TODO promotion
+    private String dateOfTheEndOfPromotion; //TODO promotion
+    private int discountPercentageOfPromotion; //TODO promotion
+    //    private String versionOfSubscription;
+//    private int priceOfSubscription;
+    private int accessTime;
+    private GregorianCalendar accessEndDate = new GregorianCalendar();
+    public Film(int productID,String description, ArrayList<String> countries, int year, ArrayList<String> cast, String title,ArrayList<String>genres,String distributorName) {
+        super(productID,description,countries,year,cast,title,genres,distributorName);
+        Random random = new Random();
+        this.accessTime = random.nextInt(7) + 1;
+
+        setDuration(random.nextInt(80)+60);
     }
 
-    public void setDateOfTheBegginingOfPromotion(String dateOfTheBegginingOfPromotion) {
-        this.dateOfTheBegginingOfPromotion = dateOfTheBegginingOfPromotion;
+    public String getDateOfTheBeginningOfPromotion() {
+        return dateOfTheBeginningOfPromotion;
+    }
+
+    public void setDateOfTheBeginningOfPromotion(String dateOfTheBeginningOfPromotion) {
+        this.dateOfTheBeginningOfPromotion = dateOfTheBeginningOfPromotion;
     }
 
     public String getDateOfTheEndOfPromotion() {
@@ -35,51 +45,27 @@ public class Film extends Product implements Promotion,Subscription{
         this.discountPercentageOfPromotion = discountPercentageOfPromotion;
     }
 
-    public String getVersionOfSubscription() {
-        return versionOfSubscription;
-    }
-
-    public void setVersionOfSubscription(String versionOfSubscription) {
-        this.versionOfSubscription = versionOfSubscription;
-    }
-
-    public int getPriceOfSubscription() {
-        return priceOfSubscription;
-    }
-
-    public void setPriceOfSubscription(int priceOfSubscription) {
-        this.priceOfSubscription = priceOfSubscription;
-    }
-
-    public int getNumberOfDevicesOfSubscription() {
-        return numberOfDevicesOfSubscription;
-    }
-
-    public void setNumberOfDevicesOfSubscription(int numberOfDevicesOfSubscription) {
-        this.numberOfDevicesOfSubscription = numberOfDevicesOfSubscription;
-    }
-
-    public String getMaxResolutionOfProduct() {
-        return maxResolutionOfProduct;
-    }
-
-    public void setMaxResolutionOfProduct(String maxResolutionOfProduct) {
-        this.maxResolutionOfProduct = maxResolutionOfProduct;
-    }
-
-    public String getLinkToTrailer() {
-        return linkToTrailer;
-    }
-
-    public void setLinkToTrailer(String linkToTrailer) {
-        this.linkToTrailer = linkToTrailer;
-    }
-
     public int getAccessTime() {
         return accessTime;
     }
 
     public void setAccessTime(int accessTime) {
         this.accessTime = accessTime;
+    }
+
+    public GregorianCalendar getAccessEndDate() {
+        return accessEndDate;
+    }
+
+    public void setAccessEndDate(SimulationTimer simulationTimer) {
+        int dayOfYear = simulationTimer.getDayOfYear();
+        this.accessEndDate.set(Calendar.YEAR,simulationTimer.getYear());
+        if(dayOfYear>accessEndDate.getActualMaximum(Calendar.DAY_OF_YEAR)){
+            dayOfYear = dayOfYear % this.accessEndDate.getActualMaximum(Calendar.DAY_OF_YEAR);
+            this.accessEndDate.set(Calendar.DAY_OF_YEAR,dayOfYear);
+            this.accessEndDate.set(Calendar.YEAR, simulationTimer.getYear() + 1);
+        }else{
+            this.accessEndDate.set(Calendar.DAY_OF_YEAR,dayOfYear);
+        }
     }
 }

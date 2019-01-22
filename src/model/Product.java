@@ -1,28 +1,51 @@
 package model;
 import java.util.ArrayList;
+import java.util.Random;
 public class Product {
-    private String name;
+    private String title;
     private String description;
-    private String photo; //path to photo
-    private String dateOfProduction;
+    private String image; //path to image
+    private int year;
     private int duration; // in minutes
-    //TODO dystrybutor
+    private String distributorName;
     private ArrayList<String> countriesOfProduction;
     private ArrayList<String> genres;
+    private ArrayList<String> cast;
     private int cost;
-    private int numBerOfViews;
+    private int numberOfViews;
+    private int viewsInMonth;
+    private ArrayList<Integer> viewsEachMonthSinceReleased = new ArrayList<>();
     private String dateOfAddingToTheSystem;
-
-    public void edit(){
+    private int amountOfNewBuyers;
+    private int productID;
+    public Product(){
 
     }
-
-    public String getName() {
-        return name;
+    public Product(int productID, String description,ArrayList<String> countries,int year,ArrayList<String> cast, String title,ArrayList<String>genres,String distributorName){
+        this.distributorName=distributorName;
+        this.genres = genres;
+        this.description=description;
+        this.countriesOfProduction=countries;
+        this.year=year;
+        this.cast=cast;
+        this.title=title;
+        Random random = new Random();
+        int numberOfImagesInDatabase = 20;
+        this.image = String.valueOf(random.nextInt(numberOfImagesInDatabase)+1);
+        this.numberOfViews = 0;
+        this.cost = random.nextInt(70)+30;
+        this.viewsInMonth = 0;
+        this.numberOfViews = 0;
+        this.amountOfNewBuyers = 0;
+        this.productID = productID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -33,20 +56,20 @@ public class Product {
         this.description = description;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImage() {
+        return image;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getDateOfProduction() {
-        return dateOfProduction;
+    public int getYear() {
+        return year;
     }
 
-    public void setDateOfProduction(String dateOfProduction) {
-        this.dateOfProduction = dateOfProduction;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public int getDuration() {
@@ -81,12 +104,12 @@ public class Product {
         this.cost = cost;
     }
 
-    public int getNumBerOfViews() {
-        return numBerOfViews;
+    public int getNumberOfViews() {
+        return numberOfViews;
     }
 
-    public void setNumBerOfViews(int numBerOfViews) {
-        this.numBerOfViews = numBerOfViews;
+    public synchronized void setNumberOfViews(int numberOfViews) {
+        this.numberOfViews = numberOfViews;
     }
 
     public String getDateOfAddingToTheSystem() {
@@ -95,5 +118,56 @@ public class Product {
 
     public void setDateOfAddingToTheSystem(String dateOfAddingToTheSystem) {
         this.dateOfAddingToTheSystem = dateOfAddingToTheSystem;
+    }
+
+    public ArrayList<String> getCast() {
+        return cast;
+    }
+
+    public void setCast(ArrayList<String> cast) {
+        this.cast = cast;
+    }
+
+    public String getDistributorName() {
+        return distributorName;
+    }
+
+    public void setDistributorName(String distributorName) {
+        this.distributorName = distributorName;
+    }
+
+    public int getViewsInMonth() {
+        return viewsInMonth;
+    }
+
+    public synchronized void setViewsInMonth(int viewsInMonth) {
+        this.viewsInMonth = viewsInMonth;
+    }
+
+    public ArrayList<Integer> getViewsEachMonthSinceReleased() {
+        return viewsEachMonthSinceReleased;
+    }
+
+    public void setViewsEachMonthSinceReleased(ArrayList<Integer> viewsEachMonthSinceReleased) {
+        this.viewsEachMonthSinceReleased = viewsEachMonthSinceReleased;
+    }
+    public void addNextMonthViews(Integer views){
+        this.viewsEachMonthSinceReleased.add(views);
+    }
+
+    public int getAmountOfNewBuyers() {
+        return amountOfNewBuyers;
+    }
+
+    public void setAmountOfNewBuyers(int amountOfNewBuyers) {
+        this.amountOfNewBuyers = amountOfNewBuyers;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 }
