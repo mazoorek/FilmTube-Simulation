@@ -18,6 +18,7 @@ public class Product {
     private String dateOfAddingToTheSystem;
     private int amountOfNewBuyers;
     private int productID;
+    private  boolean toBeRemoved;
     public Product(){
 
     }
@@ -38,6 +39,7 @@ public class Product {
         this.numberOfViews = 0;
         this.amountOfNewBuyers = 0;
         this.productID = productID;
+        this.toBeRemoved = false;
     }
 
     public String getTitle() {
@@ -169,5 +171,13 @@ public class Product {
 
     public void setProductID(int productID) {
         this.productID = productID;
+    }
+
+    public boolean isToBeRemoved() {
+        return toBeRemoved;
+    }
+
+    public void setToBeRemoved(boolean toBeRemoved) {
+        this.toBeRemoved = toBeRemoved;
     }
 }

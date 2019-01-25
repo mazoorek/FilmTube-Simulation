@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Klasa, w której pobierane są jsony z danymi, które są następnie zapisane do bazy produktów z której będą losowane
+ * dane/parametry nowych produktów.
+ */
 public class DatabaseToPickRandomDataFrom {
     public static JSONArray getJsonArray(String file){
         JSONParser parser = new JSONParser();

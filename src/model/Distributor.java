@@ -5,6 +5,10 @@ import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * Klasa opisująca dystrybutora, co robi, gdy pojawia się w programie jako nowy wątek, sposób wydawania produktów
+ * oraz negocjacji umowy.
+ */
 public class Distributor implements LicenceAgreement, Runnable {
     private int amount;
     private String name;
@@ -36,6 +40,9 @@ public class Distributor implements LicenceAgreement, Runnable {
         negotiateDeal();
     }
 
+    public Distributor() {
+    }
+
     private String generateRandomString(int stringLength) {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
@@ -55,7 +62,7 @@ public class Distributor implements LicenceAgreement, Runnable {
             this.formOfPayment = "monthly";
             this.amount = 30 * random.nextInt(70) + 30;
         } else {
-            this.formOfPayment = "singleProduct";
+            this.formOfPayment = "single product";
             this.amount = random.nextInt(5) + 10;//percent of product cost
         }
     }
@@ -101,7 +108,7 @@ public class Distributor implements LicenceAgreement, Runnable {
                     ArrayList<Episode> episodes = new ArrayList<>();
                     for(int j = 0;j<numberOfEpisodes;j++){
                         String episodeTitle = possibleProducts.get(random.nextInt(possibleProducts.size())).getTitle();
-                        Episode episode = new Episode(episodeId,episodeTitle,title);
+                        Episode episode = new Episode(episodeId,episodeTitle,title,productID);
                         episodeId+=1;
                         episodes.add(episode);
                     }

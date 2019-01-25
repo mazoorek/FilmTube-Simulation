@@ -3,6 +3,9 @@ package model;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * Klasa mierząca aktualny czas symulacji zgodnie z kalendarzem gregoriańskim.
+ */
 public class SimulationTimer {
     private long start;
     private int dayOfSimulation;
@@ -11,13 +14,6 @@ public class SimulationTimer {
     public SimulationTimer() {
 
     }
-
-//    public SimulationTimer(int dayOfSimulation, int year, int dayOfYear) {
-//        this.dayOfSimulation = dayOfSimulation;
-//        this.gc.set(Calendar.YEAR, year);
-//        this.gc.set(Calendar.DAY_OF_YEAR, dayOfYear);
-//        this.start = System.currentTimeMillis() - 1000 * this.dayOfSimulation;
-//    }
 
     public void start() {
         this.start = System.currentTimeMillis();

@@ -3,6 +3,10 @@ package model;
 import java.util.*;
 import static java.lang.Thread.sleep;
 
+/**
+ * Klasa opisująca klienta, co robi, gdy pojawia się w programie jako nowy wątek, sposób w jaki kupuje on i ogląda
+ * produkty.
+ */
 public class Client implements Runnable {
     private String name;
     private String surname;
@@ -79,21 +83,22 @@ public class Client implements Runnable {
 
     public void buyProduct() { //user can watch livestreams that already have happended for instance livestreams of standups
         if(!this.productsOnFilmtube.isEmpty() && !this.hasSubscription){
+            ArrayList<Product> currentProducts = new ArrayList<>(this.productsOnFilmtube);
             Random random = new Random();
             boolean picked = false;
             int id = 0;
             while(!picked){
                 picked = true;
-                id = random.nextInt(this.productsOnFilmtube.size());
+                id = random.nextInt(currentProducts.size());
                 for(Product bp: boughtFilmsAndLives){
-                    if(bp.getProductID()==this.productsOnFilmtube.get(id).getProductID()){
+                    if(bp.getProductID()==currentProducts.get(id).getProductID()){
                         picked = false;
                     }
                 }
             }
             int episodeId = 0;
-            if(this.productsOnFilmtube.get(id) instanceof Series){
-                Series series = (Series)this.productsOnFilmtube.get(id);
+            if(currentProducts.get(id) instanceof Series){
+                Series series = (Series)currentProducts.get(id);
                 if(!clientHasAlreadyBoughtAllEpisodes(series)){
                     boolean pickedEpisode = false;
                     while(!pickedEpisode){
@@ -137,6 +142,15 @@ public class Client implements Runnable {
         }
     }
 
+    public boolean productHaveBeenDeleted(int id){
+        ArrayList<Product> currentProducts = new ArrayList<>(this.productsOnFilmtube);
+        for(Product p:currentProducts){
+            if(id==p.getProductID()){
+                return false;
+            }
+        }
+        return true;
+    }
     public void watchProduct(){ // Client can see recording of Livestream even after the live
         Random random = new Random();
         if(!this.hasSubscription){
@@ -153,47 +167,55 @@ public class Client implements Runnable {
             }
             if(series || !this.boughtEpisodes.isEmpty()){
                 int episodeId = random.nextInt(this.boughtEpisodes.size());
-                for(Product p:currentProducts){
-                    if(p instanceof Series){
-                        if(this.boughtEpisodes.get(episodeId).getSeriesName().equals(p.getTitle())){
-                            p.setNumberOfViews(p.getNumberOfViews()+1);
-                            p.setViewsInMonth(p.getViewsInMonth()+1);
-                            break;
+                if(productHaveBeenDeleted(this.boughtEpisodes.get(episodeId).getIdOfSeries())){
+                    this.boughtEpisodes.remove(episodeId);
+                }else{
+                    for(Product p:currentProducts){
+                        if(p instanceof Series){
+                            if(this.boughtEpisodes.get(episodeId).getSeriesName().equals(p.getTitle())){
+                                p.setNumberOfViews(p.getNumberOfViews()+1);
+                                p.setViewsInMonth(p.getViewsInMonth()+1);
+                                break;
+                            }
                         }
                     }
                 }
             }
             if(filmsAndLives || !this.boughtFilmsAndLives.isEmpty()){
                 int id = random.nextInt(this.boughtFilmsAndLives.size());
-                if(this.boughtFilmsAndLives.get(id) instanceof Film){
-                    Film film = (Film)this.boughtFilmsAndLives.get(id);
-                    if(!filmAccessHasExpired(film)){
-                        for(Product p: currentProducts){
-                            if(film.getProductID()==p.getProductID()){
-                                p.setNumberOfViews(p.getNumberOfViews()+1);
-                                p.setViewsInMonth(p.getViewsInMonth()+1);
-                                break;
+                if(productHaveBeenDeleted(this.boughtFilmsAndLives.get(id).getProductID())){
+                    boughtFilmsAndLives.remove(id);
+                }else{
+                    if(this.boughtFilmsAndLives.get(id) instanceof Film){
+                        Film film = (Film)this.boughtFilmsAndLives.get(id);
+                        if(!filmAccessHasExpired(film)){
+                            for(Product p: currentProducts){
+                                if(film.getProductID()==p.getProductID()){
+                                    p.setNumberOfViews(p.getNumberOfViews()+1);
+                                    p.setViewsInMonth(p.getViewsInMonth()+1);
+                                    break;
+                                }
                             }
+                        }else{
+                            this.boughtFilmsAndLives.remove(this.boughtFilmsAndLives.get(id));
                         }
                     }else{
-                        this.boughtFilmsAndLives.remove(this.boughtFilmsAndLives.get(id));
-                    }
-                }else{
-                    Livestream livestream = (Livestream)this.boughtFilmsAndLives.get(id);
-                    boolean canWatch = false;
-                    if(livestream.getDateOfLivestream().get(Calendar.YEAR)==simulationTimer.getYear()){
-                        if(livestream.getDateOfLivestream().get(Calendar.DAY_OF_YEAR)<=simulationTimer.getDayOfYear()){
+                        Livestream livestream = (Livestream)this.boughtFilmsAndLives.get(id);
+                        boolean canWatch = false;
+                        if(livestream.getDateOfLivestream().get(Calendar.YEAR)==simulationTimer.getYear()){
+                            if(livestream.getDateOfLivestream().get(Calendar.DAY_OF_YEAR)<=simulationTimer.getDayOfYear()){
+                                canWatch = true;
+                            }
+                        }else if(livestream.getDateOfLivestream().get(Calendar.YEAR)<simulationTimer.getYear()){
                             canWatch = true;
                         }
-                    }else if(livestream.getDateOfLivestream().get(Calendar.YEAR)<simulationTimer.getYear()){
-                        canWatch = true;
-                    }
-                    if(canWatch){
-                        for(Product p: currentProducts){
-                            if(livestream.getProductID()==p.getProductID()){
-                                p.setNumberOfViews(p.getNumberOfViews()+1);
-                                p.setViewsInMonth(p.getViewsInMonth()+1);
-                                break;
+                        if(canWatch){
+                            for(Product p: currentProducts){
+                                if(livestream.getProductID()==p.getProductID()){
+                                    p.setNumberOfViews(p.getNumberOfViews()+1);
+                                    p.setViewsInMonth(p.getViewsInMonth()+1);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -370,6 +392,5 @@ public class Client implements Runnable {
                 this.goingToWatch = false;
             }
         }
-        System.out.println("Cilient deleted");
     }
 }

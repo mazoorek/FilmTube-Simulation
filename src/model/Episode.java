@@ -6,12 +6,14 @@ public class Episode {
     private String title;
     private int id;
     private int length;
-    public Episode(int id,String title,String seriesName){
+    private int idOfSeries;
+    public Episode(int id,String title,String seriesName,int idOfSeries){
         this.id=id;
         this.title =title;
         this.seriesName = seriesName;
         Random random = new Random();
         this.length = random.nextInt(40)+20;
+        this.idOfSeries=idOfSeries;
     }
     public String getPremiere() {
         return Premiere;
@@ -51,5 +53,13 @@ public class Episode {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdOfSeries() {
+        return idOfSeries;
+    }
+
+    public void setIdOfSeries(int idOfSeries) {
+        this.idOfSeries = idOfSeries;
     }
 }

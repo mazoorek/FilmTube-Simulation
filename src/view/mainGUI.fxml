@@ -2,11 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="762.0" prefWidth="1034.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -14,16 +16,29 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="184.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="319.0" minHeight="10.0" prefHeight="319.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="1000.0" minHeight="10.0" prefHeight="262.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="121.0" minHeight="10.0" prefHeight="121.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" text="Products List" GridPane.halignment="CENTER" />
-      <Label text="Clients List" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-      <Label text="Distribustors List" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Products List" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+      <Label text="Clients List" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+      <Label text="Distribustors List" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
       <Button fx:id="AddProductButton" mnemonicParsing="false" onAction="#addProduct" text="Add Product" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Button fx:id="AddClientButton" mnemonicParsing="false" onAction="#addClient" text="Add Client" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Button fx:id="AddDistributorButton" mnemonicParsing="false" onAction="#addDistributor" text="Add Distributor" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <ListView fx:id="productListView" prefHeight="360.0" prefWidth="150.0" GridPane.rowIndex="1" />
+      <ListView fx:id="clientListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ListView fx:id="distributorListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <VBox fx:id="vbox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+         <children>
+            <Label fx:id="dayOfSimulationLabel" />
+            <Label fx:id="dateOfSimulationLabel" />
+            <Label fx:id="monthlyBalanceLabel" />
+            <Label fx:id="overallBalanceLabel" />
+            <Button fx:id="endSimulationButton" mnemonicParsing="false" onAction="#endSimulation" text="End Simulation" />
+            <Label fx:id="endOfSimulationLabel" />
+         </children>
+      </VBox>
    </children>
 </GridPane>

@@ -3,6 +3,9 @@ package model;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * Klasa opisująca administratora systemu i metody jakie on może wykonać podczas trwania symulacji.
+ */
 public class SystemOwner {
     private int overallBalance;
     private int monthlyBalance;
